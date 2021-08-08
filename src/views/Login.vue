@@ -16,6 +16,7 @@
                 {{ warningMsg }}
             </p>
             <button
+                id="loginBtn"
                 type="submit"
                 @click="login(userId, userPassword)"
             >
@@ -26,7 +27,6 @@
 </template>
 
 <script>
-
 export default {
     data() {
         return {
@@ -35,52 +35,49 @@ export default {
             userPassword: "",
         };
     },
-    methods:{ 
-        login(id, password){
-            if(id.length == 0 || password.length == 0){
-                this.warningMsg = "아이디 또는 비밀번호 값을 입력해주세요."
-                // this.userPassword = "";
+    methods: {
+        login(id, password) {
+            if (id.length == 0 || password.length == 0) {
+                this.warningMsg = "아이디 또는 비밀번호 값을 입력해주세요.";
+                this.userPassword = "";
                 return false;
             }
-            this.$store.dispatch('FETCH_ACCESS_TOKEN', { id, password })
+            this.$store
+                .dispatch("FETCH_ACCESS_TOKEN", { id, password })
                 .then(() => {
-                    if(response.status == 200){
-                        console.log("login success");
-                        this.$router.push("/");
-                    }
+                    console.log("login success");
+                    this.$router.push("/");
                 })
                 .catch((error) => {
-                    console.error('ACCESS_TOKEN ERROR', error);
+                    console.error("ACCESS_TOKEN ERROR", error);
                     this.resText = "아이디 또는 비밀번호를 확인해주세요";
                     this.userPassword = "";
                     return;
-                })
-         
-        }
-
-    }
+                });
+        },
+    },
 };
 </script>
 
 <style scoped>
 .login-form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    max-width: 300px;
-    margin: 0 auto;
-    padding: 50px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 50px 0;
 }
 input {
-    display: block;
-    margin-top: 10px;
-    padding: 6px 12px;
+  display: block;
+  margin-top: 10px;
+  padding: 6px 12px;
 }
 button {
-    padding: 6px 12px;
+  padding: 6px 12px;
 }
-.warnin-msg{
-    color: #ff0000;
-    text-align: left;
+.warnin-msg {
+  color: #ff0000;
+  text-align: left;
 }
 </style>
