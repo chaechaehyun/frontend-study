@@ -14,4 +14,11 @@ const config = {
 function fetchAccessToken(data) {
   return axios.post(`${config.baseUrl}/auth/token/${data}`);
 }
-export { fetchAccessToken };
+
+function fetchGoodsList() {
+  return axios.get(`${config.baseUrl}/shop/items/summary/`)
+}
+export {
+  fetchAccessToken,
+  fetchGoodsList,
+};

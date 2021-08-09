@@ -5,6 +5,7 @@ import mutations from "./mutations";
 export default createStore({
   state: {
     accessToken: "",
+    goodsList: [],
   },
   mutations,
   actions,

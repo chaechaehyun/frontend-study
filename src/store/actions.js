@@ -1,4 +1,4 @@
-import { fetchAccessToken } from "../api/index";
+import { fetchAccessToken, fetchGoodsList } from "../api/index";
 
 const queryString = require("query-string");
 const clientId = "LrRxKVve7SZ5jiW41cUrnYgr9aFEfBy2IKHZPvSJ";
@@ -7,11 +7,13 @@ const clientSecret =
 // const clientId = 'aSNRAXNR10ZiiEfjLhjelA1h4kPMPV2cAwOONA1E';
 // const clientSecret = 'm5r1d6oQHe5J4AWGfolymgp1NmVxKRKELbFQAtSTqf12cT8kUPyvaZJzsdhvorQkQnYj8z6OrY4s8Mu3FZMGVIpsrw3WtzOeQ3nfFs53Sz3DjRfPoVCS2x4SlazvF1qM';
 const scope = 'SHOP';
-
+const myHeaders = new Headers({
+    'Content-Type': 'application/x-www-form-urlencoded'
+});
 
 export default {
 
-  async FETCH_ACCESS_TOKEN({ commit }, { id, password }) {
+    async FETCH_ACCESS_TOKEN({ commit }, { id, password }) {
     // console.log(id, password);
         let formData = queryString.stringify({
             'grant_type': 'password',
@@ -19,11 +21,19 @@ export default {
             'client_secret': clientSecret,
             'username': id,
             'password': password,
-            'scope': scope
+            'scope': scope,
         })
         console.log(formData);
         const response = await fetchAccessToken(formData);
         commit("SET_ACCESS_TOKEN", response.data.access_token);
         return response;
     },
+    
+    async FETCH_GOODS_LIST({ commit }){
+        const response = await fetchGoodsList();
+        commit("SET_GOODS_LIST", response.data);
+        return response;
+        
+    }
+
 };

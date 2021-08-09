@@ -14,8 +14,12 @@
 
 export default {
     dada() {},
+    created(){
+        this.$store.dispatch('FETCH_GOODS_LIST')
+        console.log('FETCH_GOODS_LIST');
+    }
 };
 </script>
 <style scoped>
-    
+
 </style>
