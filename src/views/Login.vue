@@ -1,6 +1,6 @@
 <template>
     <div class="">
-        <form class="login-form">
+        <form class="login-form" >
             <p>LOGIN TEST</p>
             <input
                 v-model="userId"
@@ -18,7 +18,7 @@
             <button
                 id="loginBtn"
                 type="submit"
-                @click="login(userId, userPassword)"
+                @click.self.prevent="login(userId, userPassword)"
             >
                 로그인
             </button>
@@ -42,8 +42,7 @@ export default {
                 this.userPassword = "";
                 return false;
             }
-            this.$store
-                .dispatch("FETCH_ACCESS_TOKEN", { id, password })
+            this.$store.dispatch("FETCH_ACCESS_TOKEN", { id, password })
                 .then(() => {
                     console.log("login success");
                     this.$router.push("/");
