@@ -1,6 +1,11 @@
 <template>
     <div class="main">
-        Main. Success!
+        <button
+            type="text"
+            @click="$router.push('/login')"
+        >
+            로그인
+        </button>
     </div>
 </template>
 
@@ -11,3 +16,6 @@ export default {
     dada() {},
 };
 </script>
+<style scoped>
+    
+</style>

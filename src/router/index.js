@@ -10,7 +10,7 @@ const routes = [
     // redirect: "/",
     children: [
       {
-          path: '/main',
+          path: '/',
           name: 'Main',
           component: () => import(/* webpackPrefetch: true */'@/views/Main.vue'),
       },

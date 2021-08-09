@@ -1,6 +1,6 @@
 <template>
     <div class="home">
-        HOME
+        <div class="title">HOME</div>
         <router-view />
     </div>
 </template>
@@ -12,3 +12,8 @@ export default {
     dada() {},
 };
 </script>
+<style scoped>
+   .title{
+       padding: 12px;
+   } 
+</style>
