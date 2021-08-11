@@ -1,6 +1,6 @@
 <template>
     <div class="">
-        <form class="login-form" >
+        <form class="login-form">
             <p>LOGIN TEST</p>
             <input
                 v-model="userId"
