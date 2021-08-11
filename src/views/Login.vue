@@ -38,56 +38,56 @@ export default {
         };
     },
     methods: {
-        async login(id, password) {
-            if (id.length == 0 || password.length == 0) {
-                this.warningMsg = "아이디 또는 비밀번호 값을 입력해주세요.";
-                this.userPassword = "";
-                return;
-            }
-            console.log(id, password);
-            try {
-                let formdata = new FormData();
-                formdata.append('username', id);
-                formdata.append('password', password);
-
-                let result = await loginById(formdata);
-                if(result.status == 200){
-                    console.log("login success");
-                    this.$store.commit('SET_LOGGED_IN', result.data.data);
-                    this.$router.push("/");
-                }
-            }
-            catch (error) {
-                console.error('loginByIdAsync response error', error);
-                console.log(error.response.data.msg);
-                this.warningMsg = "아이디 또는 비밀번호를 확인해주세요";
-            }
-   
-        },
-        // login(id, password) {
+        // async login(id, password) {
         //     if (id.length == 0 || password.length == 0) {
         //         this.warningMsg = "아이디 또는 비밀번호 값을 입력해주세요.";
         //         this.userPassword = "";
         //         return;
         //     }
-        //     let formdata = new FormData();
-        //     formdata.append('username', id);
-        //     formdata.append('password', password);
+        //     console.log(id, password);
+        //     try {
+        //         let formdata = new FormData();
+        //         formdata.append('username', id);
+        //         formdata.append('password', password);
 
-        //     this.$store.dispatch('FETCH_LOGIN', formdata)
-        //         .then(() => {
-        //             if(result.status == 200){
-        //                 console.log("login success");
-        //                 this.$router.push("/");
-        //             }
-        //         })
-        //         .catch((error) => {
-        //             console.error('loginByIdAsync response error', error);
-        //             console.log(error.response.data.msg);
-        //             this.warningMsg = "아이디 또는 비밀번호를 확인해주세요";
-        //         });
-               
+        //         let result = await loginById(formdata);
+        //         if(result.status == 200){
+        //             console.log("login success");
+        //             this.$store.commit('SET_LOGGED_IN', result.data.data);
+        //             this.$router.push("/");
+        //         }
+        //     }
+        //     catch (error) {
+        //         console.error('loginByIdAsync response error', error);
+        //         console.log(error.response.data.msg);
+        //         this.warningMsg = "아이디 또는 비밀번호를 확인해주세요";
+        //     }
+   
         // },
+        login(id, password) {
+            if (id.length == 0 || password.length == 0) {
+                this.warningMsg = "아이디 또는 비밀번호 값을 입력해주세요.";
+                this.userPassword = "";
+                return;
+            }
+            let formdata = new FormData();
+            formdata.append('username', id);
+            formdata.append('password', password);
+
+            this.$store.dispatch('FETCH_LOGIN', formdata)
+                .then(() => {
+                    if(result.status == 200){
+                        console.log("login success");
+                        this.$router.push("/");
+                    }
+                })
+                .catch((error) => {
+                    console.error('loginByIdAsync response error', error);
+                    console.log(error.response.data.msg);
+                    this.warningMsg = "아이디 또는 비밀번호를 확인해주세요";
+                });
+               
+        },
     },
 };
 </script>

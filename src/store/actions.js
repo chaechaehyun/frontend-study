@@ -3,7 +3,7 @@ import {
 } from '../api/index'
 
 
-export const actions = {
+export default {
 
     async FETCH_LOGIN({ commit }, formdata) {
         const response = await loginById(formdata);
