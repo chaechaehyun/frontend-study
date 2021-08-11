@@ -60,7 +60,7 @@ export default {
             catch (error) {
                 console.error('loginByIdAsync response error', error);
                 console.log(error.response.data.msg);
-                this.resText = "아이디 또는 비밀번호를 확인해주세요";
+                this.warningMsg = "아이디 또는 비밀번호를 확인해주세요";
             }
    
         },
