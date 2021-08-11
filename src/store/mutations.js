@@ -1,8 +1,6 @@
 export default {
-        SET_ACCESS_TOKEN(state, accessToken) {
-                state.accessToken = accessToken;
+        SET_LOGGED_IN(state, loggedIn) {
+                state.loggedIn = loggedIn;
         },
-        SET_GOODS_LIST(state, goodsList) {
-                state.goodsList = goodsList;
-        }
+
 };

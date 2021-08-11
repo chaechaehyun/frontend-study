@@ -9,7 +9,11 @@
 // @ is an alias to /src
 
 export default {
-    dada() {},
+    data() {
+        return{
+            
+        }
+    },
 };
 </script>
 <style scoped>

@@ -1,22 +1,24 @@
 import axios from "axios";
-// import store from '../store/store'
+import { config } from '../config/lastorder.config'
 
-const config = {
-  baseUrl: 'https://api-dev.lastorder.io/v1'
-  // baseUrl: 'https://api.lastorder.co.kr/v1'
-};
-
-// function fetchAccessToken() {
-//   return axios.post(`${config.baseUrl}/auth/token/`);
-// }
-// function fetchAccessToken(formData) {
-//   return axios.post(`${config.baseUrl}/auth/token/${formData}`);
-// }
-
-function fetchGoodsList() {
-  return axios.get(`${config.baseUrl}/shop/items`)
+export const instance = ()=> {
+	return axios.create({
+		baseURL: config.API_SERVER_URI,
+		headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+	});
 }
-export {
-  // fetchAccessToken,
-  fetchGoodsList,
-};
+
+// 액시오스 초기화 함수
+export const instanceAuth = ()=> {
+	const instance = axios.create({
+		baseURL: config.API_SERVER_URI,
+		headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+	});
+	return setInterceptors(instance);
+}
+
+// 로그인 (아이디, 패스워드)
+export const loginById = (params) => {
+  return instance().post('/v1/store/login/password/', params);
+}
+
