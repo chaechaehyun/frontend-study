@@ -1,6 +1,18 @@
 <template>
     <div class="">
-        <form class="login-form">
+        <div class="btn-area">
+            <button
+                type="text"
+                :style="showLoginForm ? 'display:none' : ''"
+                @click="showLoginForm = true"
+            >
+                로그인
+            </button>
+        </div>
+        <form 
+            v-show="showLoginForm"
+            class="login-form"
+        >
             <p>LOGIN TEST</p>
             <input
                 v-model="userId"
@@ -27,7 +39,7 @@
 </template>
 
 <script>
-import { loginById } from '@/api/index'
+// import { loginById } from '@/api/index'
 
 export default {
     data() {
@@ -35,6 +47,8 @@ export default {
             userId: "",
             userPassword: "",
             warningMsg: "",
+
+            showLoginForm: false,
         };
     },
     methods: {
@@ -53,7 +67,7 @@ export default {
         //         let result = await loginById(formdata);
         //         if(result.status == 200){
         //             console.log("login success");
-        //             this.$store.commit('SET_LOGGED_IN', result.data.data);
+        //             this.$store.commit('SET_USER_INFO', result.data.data);
         //             this.$router.push("/");
         //         }
         //     }
@@ -70,16 +84,14 @@ export default {
                 this.userPassword = "";
                 return;
             }
-            let formdata = new FormData();
+            let formdata = new URLSearchParams();
             formdata.append('username', id);
             formdata.append('password', password);
-
+            console.log(formdata);
             this.$store.dispatch('FETCH_LOGIN', formdata)
                 .then(() => {
-                    if(result.status == 200){
-                        console.log("login success");
-                        this.$router.push("/");
-                    }
+                    console.log("login success");
+                    this.$router.push("/main");
                 })
                 .catch((error) => {
                     console.error('loginByIdAsync response error', error);

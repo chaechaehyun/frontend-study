@@ -10,17 +10,17 @@ const routes = [
     // redirect: "/",
     children: [
       {
-          path: '/',
+        path: "/",
+        name: "Login",
+        component: () =>
+          import(/* webpackChunkName: "about" */ "../views/Login.vue"),
+      },
+      {
+          path: '/main',
           name: 'Main',
           component: () => import(/* webpackPrefetch: true */'@/views/Main.vue'),
       },
     ]
-  },
-  {
-    path: "/login",
-    name: "Login",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/Login.vue"),
   },
 ];
 
@@ -32,4 +32,3 @@ const router = createRouter({
 
 export default router;
 
-// router.push("/login");

@@ -1,6 +1,6 @@
 export default {
-        SET_LOGGED_IN(state, loggedIn) {
-                state.loggedIn = loggedIn;
+        SET_USER_INFO(state, user) {
+                state.user = user;
         },
 
 };
