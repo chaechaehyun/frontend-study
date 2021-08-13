@@ -39,7 +39,6 @@
 </template>
 
 <script>
-// import { loginById } from '@/api/index'
 
 export default {
     data() {
@@ -52,32 +51,6 @@ export default {
         };
     },
     methods: {
-        // async login(id, password) {
-        //     if (id.length == 0 || password.length == 0) {
-        //         this.warningMsg = "아이디 또는 비밀번호 값을 입력해주세요.";
-        //         this.userPassword = "";
-        //         return;
-        //     }
-        //     console.log(id, password);
-        //     try {
-        //         let formdata = new FormData();
-        //         formdata.append('username', id);
-        //         formdata.append('password', password);
-
-        //         let result = await loginById(formdata);
-        //         if(result.status == 200){
-        //             console.log("login success");
-        //             this.$store.commit('SET_USER_INFO', result.data.data);
-        //             this.$router.push("/");
-        //         }
-        //     }
-        //     catch (error) {
-        //         console.error('loginByIdAsync response error', error);
-        //         console.log(error.response.data.msg);
-        //         this.warningMsg = "아이디 또는 비밀번호를 확인해주세요";
-        //     }
-   
-        // },
         login(id, password) {
             if (id.length == 0 || password.length == 0) {
                 this.warningMsg = "아이디 또는 비밀번호 값을 입력해주세요.";
@@ -91,7 +64,7 @@ export default {
             this.$store.dispatch('FETCH_LOGIN', formdata)
                 .then(() => {
                     console.log("login success");
-                    this.$router.push("/main");
+                    this.$router.push("/main-list");
                 })
                 .catch((error) => {
                     console.error('loginByIdAsync response error', error);
@@ -105,6 +78,10 @@ export default {
 </script>
 
 <style scoped>
+.btn-area{
+    margin: 30px 0;
+    text-align: center;
+}
 .login-form {
   display: flex;
   flex-direction: column;
@@ -120,6 +97,7 @@ input {
 }
 button {
   padding: 6px 12px;
+  margin-top: 10px;
 }
 .warnin-msg {
   color: #ff0000;

@@ -1,6 +1,6 @@
 <template>
     <div class="home">
-        <div class="title">HOME</div>
+        <!-- <div class="title">HOME</div> -->
         
         <router-view />
     </div>
@@ -23,7 +23,8 @@ export default {
 };
 </script>
 <style scoped>
-   .title{
-       padding: 12px;
-   } 
+    .title{
+        padding: 12px;
+        text-align: center;
+    } 
 </style>

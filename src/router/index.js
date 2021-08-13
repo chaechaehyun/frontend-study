@@ -16,9 +16,9 @@ const routes = [
           import(/* webpackChunkName: "about" */ "../views/Login.vue"),
       },
       {
-          path: '/main',
-          name: 'Main',
-          component: () => import(/* webpackPrefetch: true */'@/views/Main.vue'),
+          path: '/main-list',
+          name: 'MainList',
+          component: () => import(/* webpackPrefetch: true */'@/views/MainList.vue'),
       },
     ]
   },
