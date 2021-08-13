@@ -12,7 +12,7 @@ describe("test MainList view", () => {
             inactivate: 0,
             end: 0,
         }
-        const wrapper = mount(shallowMount, {
+        const wrapper = shallowMount(MainList, {
             productSummary,
         })
         await wrapper.setData({ productSummary });

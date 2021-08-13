@@ -16,14 +16,20 @@ export default createStore({
           shop_id: undefined,
       }
     },
-  goodsList: [],
+    itemSummary: {
+      activate: 0,
+      inactivate: 0,
+      end: 0,
+    },
+    goodsList: [],
   },
   mutations,
   actions,
   getters: {
     getTokenType: state => state.user.token_type,
     getAccessToken: state => state.user.access_token,
-    getHasNewNotice: state => state.hasNewNotice,
+    getproductSummary: state => state.itemSummary,
+
   },
   modules: {},
 });

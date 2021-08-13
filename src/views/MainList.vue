@@ -38,7 +38,10 @@
 </template>
 
 <script>
+import { computed } from '@vue/runtime-core'
 // import { getItemSummary } from '@/api/index'
+
+import { mapGetters } from 'vuex'
 import GoodsItem from '../components/GoodsItem.vue'
 
 export default {
@@ -62,11 +65,15 @@ export default {
             },
         }
     },
+    computed:{
+        ...mapGetters({
+            productSummary: 'getproductSummary',
+        })
+    },
     created(){
-        
+        this.getItemSummary()
     },
     mounted() {
-        this.getItemSummary()
     },
     methods:{
         changedStatus(status){
