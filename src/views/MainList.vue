@@ -27,12 +27,13 @@
             </li>
         </ui>
         <div class="list-area">
-            <goods-item
+            <!-- <goods-item
                 v-for="(productItem, productIndex) in productList"
                 :key="productIndex"
                 :sold-out="productStatus == 'E'"
                 :product="productItem"
-            />
+            /> -->
+            <goods-item></goods-item>
         </div>
     </div>
 </template>
@@ -48,7 +49,7 @@ export default {
     components:{
         GoodsItem,
     },
-    dada() {
+    data() {
         return {
             searchWord: "",
             isAllSelected: false,
@@ -58,16 +59,18 @@ export default {
                 has_next: false,
             },
             productList: [],
-            productSummary: {
-                activate: 0,
-                inactivate: 0,
-                end: 0,
-            },
+            // productSummary: {
+            //     activate: 0,
+            //     inactivate: 0,
+            //     end: 0,
+            // },
+            // userInfo: {},
         }
     },
     computed:{
         ...mapGetters({
             productSummary: 'getproductSummary',
+            userInfo: 'getUserInfo'
         })
     },
     created(){
@@ -77,23 +80,21 @@ export default {
     },
     methods:{
         changedStatus(status){
-            console.log('tab');
+            // console.log('tab');
             this.productStatus = status; 
             // this.productList = [];
             // this.getItemsAsync();
         }, 
         getItemSummary() {
-            // console.log(this.$store.state.user.member.shop_id)
-            this.$store.dispatch('FETCH_ITEM_SUMMARY', this.$store.state.user.member.shop_id)
+            // console.log(typeof(this.userInfo.shop_id), this.userInfo.shop_id)
+            this.$store.dispatch('FETCH_ITEM_SUMMARY', this.userInfo.shop_id)
                 .then(() => {   
-                    if(result.status == 200 && result.data.data != undefined) {
-                        this.productSummary = result.data.data;
-                        console.log(result.data.data);
-                    } 
+                    console.log(response.data.data);
+                   
                 }).
                 catch((error) => {
                     console.error('getItemSummary response error', error)
-                })
+                });
                
         },
         // async getItemSummaryAsync() {

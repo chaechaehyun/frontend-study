@@ -28,6 +28,7 @@ export default createStore({
   getters: {
     getTokenType: state => state.user.token_type,
     getAccessToken: state => state.user.access_token,
+    getUserInfo: state => state.user.member,
     getproductSummary: state => state.itemSummary,
 
   },
