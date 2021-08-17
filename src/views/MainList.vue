@@ -40,7 +40,7 @@
 
 <script>
 import { computed } from '@vue/runtime-core'
-// import { getItemSummary } from '@/api/index'
+import { getItems } from '@/api/index'
 
 import { mapGetters } from 'vuex'
 import GoodsItem from '../components/GoodsItem.vue'
@@ -65,6 +65,21 @@ export default {
             //     end: 0,
             // },
             // userInfo: {},
+            sort: 0,
+            sorts : [
+                '종료임박순',
+                '종료늦은순',
+                '재고많은순',
+                '재고적은순',
+                '가나다순',
+            ],
+
+            periodSort: 0,
+            periodSorts: [
+                '7일',
+                '1개월',
+                '3개월'
+            ],
         }
     },
     computed:{
@@ -118,7 +133,7 @@ export default {
             // this.isAllSelected = false;
 
             // try {
-            //     let result = await getItems(this.$store.state.loginInfo.shop_id, {
+            //     let result = await getItems(this.userInfo.shop_id, {
             //         item_status: this.productStatus,
             //         search: this.searchWord,
             //         page: this.pagination.page,
@@ -151,8 +166,48 @@ export default {
             // catch (error) {
             //     console.error('getItemsAsync response error', error);
             // }
-
-        }
+        },
+        sortCalculator() {
+            if(this.sort == 0) {        // 종료임박순
+                return 'sell_end_at'
+            }
+            else if(this.sort == 1) {   // 종료늦은순
+                return '-sell_end_at'
+            }
+            else if(this.sort == 2) {   // 재고많은순
+                return '-qty'
+            }
+            else if(this.sort == 3) {   // 재고적은순
+                return 'qty'
+            }
+            else if(this.sort == 4) {   // 가나다순
+                return 'name'
+            }
+            else {
+                return undefined
+            }
+        },
+        periodSortCalculator() {
+            const nowDate = new Date();
+            if(this.periodSort == 0) {        // 1주일
+                nowDate.setDate(nowDate.getDate() - 7);
+                // return nowDate.toISOString().substring(0,10);
+                return new Date(nowDate.getTime() + (9 * 60 * 60 * 1000)).toISOString().substring(0, 10);
+            }
+            else if(this.periodSort == 1) {   // 1달
+                nowDate.setDate(nowDate.getDate() - 30);
+                // return nowDate.toISOString().substring(0,10);
+                return new Date(nowDate.getTime() + (9 * 60 * 60 * 1000)).toISOString().substring(0, 10);
+            }
+            else if(this.periodSort == 2) {   // 3달
+                nowDate.setDate(nowDate.getDate() - 90);
+                // return nowDate.toISOString().substring(0,10);
+                return new Date(nowDate.getTime() + (9 * 60 * 60 * 1000)).toISOString().substring(0, 10);
+            }
+            else {
+                return undefined
+            }
+        },
     }
 };
 </script>
