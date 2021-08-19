@@ -3,52 +3,66 @@
         <div class="title">
             상품관리
         </div>
-        <ui class="list-tab">
-            <li 
+        <div class="list-tab">
+            <button 
                 :class="{'active' : productStatus == 'S'}" 
                 @click="changedStatus('S')"
             >
                 판매중 
                 {{ productSummary.activate }}
-            </li>
-            <li 
+            </button>
+            <button 
                 :class="{'active' : productStatus == 'W'}" 
                 @click="changedStatus('W')"
             >
                 판매중지 
                 {{ productSummary.inactivate }}
-            </li>
-            <li 
+            </button>
+            <button 
                 :class="{'active' : productStatus == 'E'}" 
                 @click="changedStatus('E')"
             >
                 판매종료 
                 {{ productSummary.end }}
-            </li>
-        </ui>
+            </button>
+        </div>
+        <div class="filter-area">
+            <input id="totalCheck" type="checkbox">
+            <label for="totalCheck">전체선택</label>
+            <button>중지</button>
+        </div>
         <div class="list-area">
-            <!-- <goods-item
+            <goods-item
                 v-for="(productItem, productIndex) in productList"
                 :key="productIndex"
                 :sold-out="productStatus == 'E'"
                 :product="productItem"
-            /> -->
-            <goods-item></goods-item>
+            />
         </div>
     </div>
 </template>
 
 <script>
-import { computed } from '@vue/runtime-core'
-import { getItems } from '@/api/index'
-
+// import { computed } from '@vue/runtime-core'
+// import { reactive, computed } from 'vue'
+// import { useStore } from 'vuex'
 import { mapGetters } from 'vuex'
+import { getItems } from '@/api/index'
 import GoodsItem from '../components/GoodsItem.vue'
 
 export default {
     components:{
         GoodsItem,
     },
+    // setup () {
+    //     const state = reactive({
+    //         productSummary: computed(() => state.itemSummary()),
+    //         userInfo:computed(() => state.user.member())
+    //     });
+    //     return { 
+    //         state 
+    //     }
+    // },
     data() {
         return {
             searchWord: "",
@@ -85,87 +99,76 @@ export default {
     computed:{
         ...mapGetters({
             productSummary: 'getproductSummary',
-            userInfo: 'getUserInfo'
         })
     },
     created(){
-        this.getItemSummary()
     },
     mounted() {
+        this.getItemSummary()
+        this.getItemsAsync();
+
     },
     methods:{
         changedStatus(status){
+            this.searchWord = '';
+            this.productStatus = status;
+            this.productList = [];
             // console.log('tab');
-            this.productStatus = status; 
-            // this.productList = [];
-            // this.getItemsAsync();
+            this.sort = this.productStatus == 'E' ? 1 : 0;
+            this.getItemsAsync();
+            // console.log(this.productList);
         }, 
         getItemSummary() {
-            // console.log(typeof(this.userInfo.shop_id), this.userInfo.shop_id)
-            this.$store.dispatch('FETCH_ITEM_SUMMARY', this.userInfo.shop_id)
-                .then(() => {   
+            let shopId = this.$store.state.user.member.shop_id;
+            this.$store.dispatch('FETCH_ITEM_SUMMARY', shopId)
+                .then((response) => {   
                     console.log(response.data.data);
-                   
                 }).
                 catch((error) => {
                     console.error('getItemSummary response error', error)
                 });
-               
         },
-        // async getItemSummaryAsync() {
-        //     console.log(this.$store.state.user.member.shop_id);
-        //     try {
-        //         let result = await getItemSummary(this.$store.state.user.member.shop_id);
-        //         console.log('getItemSummary response result', result);
-
-        //         if(result.status == 200 && result.data.data != undefined) {
-        //             this.productSummary = result.data.data;
-        //             console.log(result.data.data);
-        //         }
-        //     }
-        //     catch (error) {
-        //         console.error('getItemSummary response error', error)
-        //     }
-        // },
 
         async getItemsAsync(){
             
-            // this.isAllSelected = false;
+            this.isAllSelected = false;
+            let shopId = this.$store.state.user.member.shop_id;
 
-            // try {
-            //     let result = await getItems(this.userInfo.shop_id, {
-            //         item_status: this.productStatus,
-            //         search: this.searchWord,
-            //         page: this.pagination.page,
-            //         ordering: this.productStatus == 'E' ? '-deleted_at' : this.sortCalculator(),
-            //         deleted_at_after: this.productStatus == 'E' ? this.periodSortCalculator() : undefined,
-            //     });
-            //     console.log('getItemsAsync response result', result);
+            try {
+                let result = await getItems(shopId, {
+                    item_status: this.productStatus,
+                    search: this.searchWord,
+                    page: this.pagination.page,
+                    ordering: this.productStatus == 'E' ? '-deleted_at' : this.sortCalculator(),
+                    deleted_at_after: this.productStatus == 'E' ? this.periodSortCalculator() : undefined,
+                });
+                console.log('getItemsAsync response result', result);
 
-            //     if(result.status == 200 && result.data.data != undefined) {
-            //         if(this.pagination.page == 1){
+                if(result.status == 200 && result.data.data != undefined) {
+                    if(this.pagination.page == 1){
 
-            //         }
+                    }
 
-            //         result.data.data.forEach(item => {
-            //             item.selected = false;
-            //             this.productList.push(item);
-            //         })
+                    result.data.data.forEach(item => {
+                        item.selected = false;
+                        this.productList.push(item);
+                        // console.log(this.productList);
+                    })
 
-            //         Object.assign(this.pagination, {
-            //             page : result.data.page,
-            //             has_next : result.data.has_next,
-            //         })
-            //         // this.getItemSummaryAsync();
-            //     }
-            //     else if(result.status == 200 && result.data.data == undefined) {
-            //         this.productList = [];
-            //         // this.getItemSummaryAsync();
-            //     }
-            // }
-            // catch (error) {
-            //     console.error('getItemsAsync response error', error);
-            // }
+                    Object.assign(this.pagination, {
+                        page : result.data.page,
+                        has_next : result.data.has_next,
+                    })
+                    this.getItemSummary();
+                }
+                else if(result.status == 200 && result.data.data == undefined) {
+                    this.productList = [];
+                    this.getItemSummary();
+                }
+            }
+            catch (error) {
+                console.error('getItemsAsync response error', error);
+            }
         },
         sortCalculator() {
             if(this.sort == 0) {        // 종료임박순
@@ -211,7 +214,7 @@ export default {
     }
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .title{
     text-align: center;
     padding: 12px 20px;
@@ -221,13 +224,30 @@ export default {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    button{
+        width: 33.33%;
+        text-align: center;
+        padding: 12px;
+        border: 2px solid #fff;
+        background: #929292;
+        color: #fff;
+        &.active{
+            background: #ff4040;
+        }
+    }
 }
-.list-tab li{
-    width: 33.33%;
-    text-align: center;
-    padding: 12px;
-}
-.list-tab li.active{
-    color: #ff4040;
+.filter-area{
+    padding: 10px 20px;
+    input[type="checkbox"]{
+        width: 20px;
+        height: 20px;
+        vertical-align: sub;
+    }
+    label{
+        margin: 0 8px;
+    }
+    button{
+        padding: 2px 6px 1px;
+    }
 }
 </style> 

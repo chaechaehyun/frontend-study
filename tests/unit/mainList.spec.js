@@ -1,22 +1,25 @@
 import { shallowMount, mount, createLocalVue } from "@vue/test-utils";
+import Vue from 'vue'
 import MainList from "../../src/views/MainList.vue";
-import GoodsItem from '../../src/components/GoodsItem.vue'
+import store from "@/store";
+import GoodsItem from "../../src/components/GoodsItem.vue";
+
+
+// import GoodsItem from '../../src/components/GoodsItem.vue'
 
 // const localVue = createLocalVue();
 // localVue.component('GoodsItem', GoodsItem);
 
 describe("test MainList view", () => {
-    it("그려졌을때 적절한 productSummary값이 들어 오는지", async () => {
-        let productSummary = {
-            activate: 0,
-            inactivate: 0,
-            end: 0,
-        }
+    it("그려졌을때 goods-item component가 잘그려지는지", async () => {
+        
         const wrapper = shallowMount(MainList, {
-            productSummary,
+            GoodsItem,
+            store
         })
-        await wrapper.setData({ productSummary });
-        expect(wrapper.html('.list-tab li')).toContain(productSummary.activate);
+        expect(wrapper.vm.GoodsItem).toBe(true);
+
+        // expect(wrapper.html('.list-tab')).toContain(productSummary.activate);
        
     });
 

@@ -1,7 +1,7 @@
 import {
     loginById,
     getItemSummary,
-    // getItems
+    getItems
 } from '../api/index'
 
 
