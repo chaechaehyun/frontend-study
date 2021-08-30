@@ -1,7 +1,6 @@
 import {
     loginById,
     getItemSummary,
-    getItems
 } from '../api/index'
 
 
@@ -19,5 +18,5 @@ export default {
         commit('SET_ITEM_SUMMARY', response.data.data)
         // console.log(response.data.data);
         return response;
-    }
+    },
 }

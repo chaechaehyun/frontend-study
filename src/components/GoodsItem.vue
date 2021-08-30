@@ -1,11 +1,10 @@
 <template>
     <div class="goods-item">
-        <!-- {{ product }} -->
         <div class="img-area">
             <input 
                 id="itemCheck" 
                 type="checkbox" 
-                :checked="product.selected === true"
+                @click="$emit('one-product-select')"
             >
             <img
                 :src="product.thumbnail"
@@ -21,10 +20,10 @@
                     class="item-badge"
                     :class="product.item_status == 'E' ? 'red' : 'blue'"
                 >
-                    자동
+                    자동 
                 </span>
-                <span>{{ product.total_qty }}</span>
-                <span>{{ $utils.threeComma(product.price) }}원</span>
+                <span> {{ product.total_qty }}개 </span>
+                <span>{{ $utils.threeComma(product.price) }}원 </span>
                 <span>{{ `(${product.discount_rate}%)` }}</span>
             </div>
             <div class="time-info">
@@ -32,17 +31,28 @@
                 <span> ~ {{ $utils.hhmmFormatter(product.buy_end_at) }}</span>
             </div>
             <div class="quantity-info">
-                <button class="count-button">
+                <button 
+                    class="count-button" 
+                    @click="$emit('quantity-down')"
+                >
                     -
                 </button>
                 <input
                     type="text"
                     :value="product.qty"
                 >
-                <button class="count-button">
+                <button 
+                    class="count-button" 
+                    @click="$emit('quantity-up')"
+                >
                     +
                 </button>
-                <button>저장</button>
+                <button 
+                    class="save-btn"
+                    @click="$emit('save-quantity')"
+                >
+                    저장
+                </button>
             </div>
         </div>
     </div>
@@ -52,11 +62,21 @@
 // import { inject } from 'vue'
 export default {
     props:{
+        soldOut: Boolean,
         product: Object,
-        soldOut: Boolean
+       
     },
     setup() {
-        // const $utils = inject('$utils');
+        
+    },
+    mounted () {
+
+    },
+    methods: {
+        // oneProductSelect() {
+        //     console.log('oneProductSelect', this.product.selected)
+        //     // this.product.selected = !this.product.selected;
+        // },
     }
 }
 </script>
@@ -96,6 +116,7 @@ export default {
             font-size: 12px;
             padding: 3px 6px;
             display: inline-block;
+            margin-right: 6px;
             &.blue{
                 background: #0ea8f4;
             }
@@ -112,9 +133,21 @@ export default {
         input{
             width: 40px;
             text-align: center;
+            margin: 0 4px;
         }
         .count-button{
             width: 30px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .save-btn{
+            margin-left: 6px;
+            background: #ff7fab;
+            color: #fff;
+            border: none;
+            padding: 2px 6px;
+            font-size: 12px;
+            font-weight: bold;
         }
     }
 }

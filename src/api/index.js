@@ -41,3 +41,34 @@ export const getItems = (shopId, query) => {
       params: query
   });
 }
+
+// 상품 판매중 전환
+export const activateItems = (shopId, params) => {
+  return instanceAuth().post('/v1/store/items/activate/', params, {
+      headers : {
+          'Content-Type': 'application/json',
+          'shop': shopId.toString()
+      },
+  });
+}
+
+// 상품 판매대기/중지 전환
+export const inactivateItems = (shopId, params) => {
+  return instanceAuth().post('/v1/store/items/inactivate/', params, {
+      headers : {
+          'Content-Type': 'application/json',
+          'shop': shopId.toString()
+      },
+  });
+}
+
+// 상품 수정
+export const updateItem = (id, shopId, params) => {
+  return instanceAuth().put(`/v1/store/items/${id}/`, params, {
+      headers: {
+          'Content-Type': 'application/json',
+          // 'Content-Type': 'multipart/form-data',
+          'shop': shopId.toString(),
+      },
+  });
+}
